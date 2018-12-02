@@ -35,12 +35,9 @@ def ridiculous_solution():
 
 
 def cameron_two():
-    # Then we indent the rest of the program to happen inside
-    # the context.
-    # Nothing else has changed.
-    number_list = {0}  # this is right.
+    number_list = {0}
     total = 0
-    this_loop = True  # This might have a better solution.
+    this_loop = True
     while this_loop:
         with open("cameron.txt") as number_file:
             for line in number_file:
@@ -49,10 +46,10 @@ def cameron_two():
                     this_loop = False
                     break
                 number_list.add(total)
-    return total  # This is probably wrong, as well.
+    return total
 
 
-print(f"Puzzle one: {puzzle_one()}")
-print(f"Puzzle two: {puzzle_two()}")
-print(f"Bro's solution: {cameron_two()}")
-print(f"Better puzzle two: {ridiculous_solution()}")
+print(f"Puzzle one: {puzzle_one()}")  # 533
+print(f"Puzzle two: {puzzle_two()}")  # 73272
+print(f"Bro's solution: {cameron_two()}")  # 390
+print(f"Better puzzle two: {ridiculous_solution()}")  # 73272
