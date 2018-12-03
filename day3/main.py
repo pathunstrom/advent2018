@@ -1,5 +1,5 @@
 from itertools import product
-from itertools import tee
+from itertools import chain
 from collections import Counter
 from collections import namedtuple
 
@@ -30,6 +30,15 @@ def claimed_inches(claim):
     return product(width_values, height_values)
 
 
+def has_no_intersection(counter, claim):
+    counter.subtract(claimed_inches(claim.dimensions))
+    for inch in claimed_inches(claim.dimensions):
+        if counter[inch] >= 1:
+            counter.update(claimed_inches(claim.dimensions))
+            return False
+    return True
+
+
 def puzzle_one():
     """
     Right answer: 100261
@@ -41,27 +50,17 @@ def puzzle_one():
         update_counter_with_claim(counts, claim)
     return sum(1 for _, v in counts.items() if v > 1)
 
+
 def puzzle_two():
-    claim_1: Claim
-    claim_2: Claim
-    disqualified = set()
-    candidates = set()
-    for claim_1, claim_2 in product(*tee(parse("input.txt", transform))):
-        if claim_1.id == claim_2.id or (claim_1 in disqualified and claim_2 in disqualified):
-            continue
-        claim_1_set = set(claimed_inches(claim_1.dimensions))
-        claim_2_set = set(claimed_inches(claim_2.dimensions))
-        if claim_1_set.intersection(claim_2_set):
-            # intersection means both are disqualified.
-            candidates.discard(claim_1)
-            candidates.discard(claim_2)
-            disqualified.update({claim_1, claim_2})
-        else:
-            candidates.update({claim_1, claim_2})
-    if len(candidates) == 1:
-        return candidates.pop()
-    else:
-        raise WTFError(f"Candidates has {len(candidates)} members")
+    """
+    Right answer: 251
+    """
+    claims = list(parse("input.txt", transform))
+    counter = Counter(chain(*(claimed_inches(claim.dimensions) for claim in claims)))
+    print(counter.most_common(100))
+    for claim in claims:
+        if has_no_intersection(counter, claim):
+            return claim.id
 
 
 print(puzzle_one())  # 100261

@@ -30,3 +30,14 @@ def test_update_counter_with_claim():
     # ...........
     main.update_counter_with_claim(counter, test_input)
     assert sum(counter.values()) == 20
+
+
+def test_has_no_intersection():
+    test_input = main.Claim(1, (3, 2, 5, 4))
+    test_counts = [(3, 2), (3, 2), (3, 3), (3, 4)]
+    counter = main.Counter(test_counts)
+    assert not main.has_no_intersection(counter, test_input)
+    test_counts = [(8, 8), (9, 9), (100, 100)]
+    counter = main.Counter(test_counts)
+    assert main.has_no_intersection(counter, test_input)
+
