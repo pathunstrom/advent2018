@@ -57,7 +57,6 @@ def puzzle_two():
     """
     claims = list(parse("input.txt", transform))
     counter = Counter(chain(*(claimed_inches(claim.dimensions) for claim in claims)))
-    print(counter.most_common(100))
     for claim in claims:
         if has_no_intersection(counter, claim):
             return claim.id
